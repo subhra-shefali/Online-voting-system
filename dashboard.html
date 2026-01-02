@@ -1,0 +1,52 @@
+
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../css/stylesheet.css">
+</head>
+
+<body>
+    <button onclick="goBack()">Previous</button>
+    <button onclick="logout()">Logout</button>
+
+    <h1>Online Voting System</h1>
+
+    <div id="bodysection">
+        <h3 id="welcome"></h3>
+        <p id="roleText"></p>
+    </div>
+
+<script>
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!currentUser) {
+        window.location.href = "../index.html";
+    } else {
+        document.getElementById("welcome").innerText =
+            "Welcome, " + currentUser.name;
+
+        document.getElementById("roleText").innerText =
+            currentUser.role === "1" ? "Role: Voter" : "Role: Party";
+
+        // ROLE-BASED CONTENT
+        if (currentUser.role === "1") {
+            document.getElementById("bodysection").innerHTML +=
+                "<p>You can vote.</p>";
+        } else {
+            document.getElementById("bodysection").innerHTML +=
+                "<p>You can view results.</p>";
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem("currentUser");
+        window.location.href = "../index.html";
+    }
+
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>

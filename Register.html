@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Voting System - Register</title>
+    <link rel="stylesheet" href="../css/stylesheet.css">
+</head>
+
+<body>
+    <div id="headersection">
+        <h1>Online Voting System</h1>
+    </div>
+
+    <hr>
+
+    <div id="bodysection">
+        <form onsubmit="return registerUser()">
+            <h3>Registration</h3>
+
+            <input type="text" name="name" placeholder="Enter name" required><br><br>
+
+            <input type="number" name="mobile" placeholder="Enter mobile number" required><br><br>
+
+            <input type="password" id="password" placeholder="Password" required><br><br>
+
+            <input type="password" id="confirm" placeholder="Confirm password" required><br><br>
+
+            <select required>
+                <option value="">Select role</option>
+                <option value="1">Voter</option>
+                <option value="2">Party</option>
+            </select><br><br>
+
+            <button type="submit">Register</button><br><br>
+
+            Already a user? <a href="../index.html">Login here</a>
+        </form>
+    </div>
+
+<script>
+function registerUser() {
+    const name = document.querySelector("input[name='name']").value;
+    const mobile = document.querySelector("input[name='mobile']").value;
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirm").value;
+    const role = document.querySelector("select").value;
+
+    if (password !== confirm) {
+        alert("Passwords do not match");
+        return false;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    for (let user of users) {
+        if (user.mobile === mobile) {
+            alert("User already registered. Please login.");
+            window.location.href = "../index.html";
+            return false;
+        }
+    }
+
+    users.push({ name, mobile, password, role });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Registration successful!");
+    window.location.href = "../index.html";
+    return false;
+}
+</script>
+</body>
+</html>

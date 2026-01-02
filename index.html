@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Voting System</title>
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+
+<body>
+    <div id="headersection">
+        <h1>Online Voting System</h1>
+    </div>
+
+    <hr>
+
+    <div id="bodysection">
+        <form onsubmit="return validateLogin()">
+            <h3>Login</h3>
+
+            <input type="number" name="mobile" placeholder="Enter mobile number"><br><br>
+            
+            <input type="password" name="password" placeholder="Enter password"><br><br>
+            
+            <select id="role">
+                <option value="">Select role</option>
+                <option value="1">Voter</option>
+                <option value="2">Party</option>
+            </select><br><br>
+
+            <button type="submit">Submit</button><br><br>
+
+            New user? <a href="routes/Register.html">Register here</a>
+        </form>
+    </div>
+
+    <script>
+function validateLogin() {
+    const mobile = document.querySelector("input[name='mobile']").value;
+    const password = document.querySelector("input[name='password']").value;
+    const role = document.getElementById("role").value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+
+    for (let user of users) {
+        if (user.mobile === mobile && user.password === password && user.role === role) {
+            alert("Login successful");
+            localStorage.setItem("currentUser", JSON.stringify(user));
+            window.location.href = "routes/dashboard.html";
+            return false;
+        }
+    }
+
+    alert("User not registered. Please register first.");
+    window.location.href = "routes/Register.html";
+    return false;
+}
+</script>
+
+</body>
+</html>
